@@ -9,5 +9,5 @@
 
 ## 编译ffmpeg
 ### 依赖
-nasm/yasm ``
+nasm/yasm `apt install yasm`
 
