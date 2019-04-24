@@ -21,6 +21,22 @@
     6
     ```
 
+5. 以配置文件形式启动
+    ```
+    #mongod.conf
+    bind_ip=0.0.0.0  #允许远程访问
+    port=27017
+    dbpath=/usr/local/mongodb/data/
+    storageEngine=mmapv1
+    logpath=/usr/local/mongodb/log/log.log
+    fork = true
+    ```
+    启动文件
+    ```
+    #bin/bash
+    ./mongod -f /usr/local/mongodb/mongod.conf
+    ```
+
 # 数据操作
 1. 插入数据 `db.集合.insert()`
     ```
