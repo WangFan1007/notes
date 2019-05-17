@@ -62,3 +62,12 @@ source 1.txt
 #!/bin/bash
 bash 1.txt
 ```
+
+# 练习脚本创建用户
+```
+#!/bin/bash
+[ ! $# -eq 1 ] && echo "args error..." && exit 2
+id $1 &> /dev/null && echo "user exist..." && exit 3
+user add $1 &> /dev/null && echo $1 | passwd --stdin $1 &> /dev/null && echo "user added ok" && exit 0
+echo "wei zhi cuo wu" && exit 9
+```
