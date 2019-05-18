@@ -71,3 +71,77 @@ id $1 &> /dev/null && echo "user exist..." && exit 3
 user add $1 &> /dev/null && echo $1 | passwd --stdin $1 &> /dev/null && echo "user added ok" && exit 0
 echo "wei zhi cuo wu" && exit 9
 ```
+
+
+# ssh 配置
+```
+#免密钥登陆
+ssh-keygen -t dsa -P '' -f /root/.ssh/id_dsa
+cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
+```
+
+# 安装JDK 下载hadoop-common
+```
+#配置环境变量
+export JAVA_HOME=/usr/java/jdk1.7.0_80
+export HADOOP_HOME=/opt/sxt/hadoop-2.6.5
+export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+
+#二次配置JAVA_HOME
+    hadoop-env.sh
+    mapred-env.sh  
+    yarn-env.sh
+使用绝对路径赋值其中的JAVA_HOME
+```
+
+# hadoop单机配置(伪分布式)
+## core-site.xml namenode 与存储位置
+```
+    <configuration>
+            <property>
+                    <name>fs.defaultFS</name>
+                    <value>hdfs://node01:9000</value>
+            </property>
+            <property>
+                    <name>hadoop.tmp.dir</name>
+                    <value>/var/sxt/hadoop/local</value>
+            </property>
+    </configuration>
+```
+## hdfs-site.xml 单机
+```
+    <configuration>
+            <property>
+                    <name>dfs.replication</name>
+                    <value>1</value>
+            </property>
+
+            <property>
+                <name>dfs.namenode.secondary.http-address</name>
+                <value>node01:50090</value>
+        </property>
+    </configuration>
+```
+```
+[root@node01 hadoop]# cat slaves 
+node01
+```
+
+# 配置完成操作
+
+```
+#格式化
+hdfs namenode -format
+
+#启动服务
+start-dfs.sh
+
+#测试
+hdfs dfs -mkdir -p /user/root
+hdfs dfs -put ./hadoop-2.6.5.tar.gz /user/root/
+
+for i in `seq 100000`;do echo "hello sxt $i" >> test.txt;done
+hdfs dfs -D dfs.blocksize=1048576 -put test.txt
+```
+
+# hadoop完全分布式搭建
