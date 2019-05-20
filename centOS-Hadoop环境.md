@@ -145,3 +145,53 @@ hdfs dfs -D dfs.blocksize=1048576 -put test.txt
 ```
 
 # hadoop完全分布式搭建
+
+## 免登录配置
+```
+scp id_dsa.pub root@node04:`pwd`/node01.pub
+#到相应主机.ssh目录
+cat node01.pub >> authorized_keys
+```
+
+## core-site.xml
+```
+<configuration>
+        <property>
+                <name>fs.defaultFS</name>
+                <value>hdfs://node01:9000</value>
+        </property>
+        <property>
+                <name>hadoop.tmp.dir</name>
+                <value>/var/sxt/hadoop/full</value>
+        </property>
+</configuration>
+```
+
+## slaves
+```
+node02
+node03
+node04
+```
+
+## hdfs-site.xml
+```
+<configuration>
+        <property>
+                <name>dfs.replication</name>
+                <value>2</value>
+        </property>
+        <property>
+                <name>dfs.namenode.secondary.http-address</name>
+                <value>node02:50090</value>
+        </property>
+</configuration>
+```
+
+## 配置完成后
+```
+hdfs namenode -format
+
+#永久关闭防火墙
+systemctl disable firewalld
+```
