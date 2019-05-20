@@ -83,8 +83,14 @@ cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
 # 安装JDK 下载hadoop-common
 ```
 #配置环境变量
+#home
 export JAVA_HOME=/usr/java/jdk1.7.0_80
 export HADOOP_HOME=/opt/sxt/hadoop-2.6.5
+export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+
+#office
+export JAVA_HOME=/usr/java/jdk1.8.0_211-amd64
+export HADOOP_HOME=/opt/hadoop/hadoop-3.2.0
 export PATH=$PATH:$JAVA_HOME/bin:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
 
 #二次配置JAVA_HOME
