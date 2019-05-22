@@ -93,6 +93,17 @@ scp -r zookeeper-3.4.14 root@node03:`pwd`
    	<value>true</value>
     </property>
 
+    <!-- 配置sshfence隔离机制超时时间 -->
+     <property>
+         <name>dfs.ha.fencing.ssh.connect-timeout</name>
+         <value>30000</value>
+     </property>
+ 
+     <property>
+         <name>ha.failover-controller.cli-check.rpc-timeout.ms</name>
+         <value>60000</value>
+     </property>
+
 </configuration>
 
 ```
