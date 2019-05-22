@@ -25,6 +25,8 @@ echo 1|2|3 > /var/hadoop/zk/myid
 scp -r zookeeper-3.4.14 root@node03:`pwd`
 ```
 
+### 改完配置最好重启下节点电脑
+
 ## hadoop HA
 ### hdfs-site.xml
 ```
@@ -32,10 +34,6 @@ scp -r zookeeper-3.4.14 root@node03:`pwd`
     <property>
         <name>dfs.replication</name>
         <value>2</value>
-    </property>
-    <property>
-        <name>dfs.namenode.http-address</name>
-        <value>node01:50070</value>
     </property>
 
      <property>
@@ -59,16 +57,16 @@ scp -r zookeeper-3.4.14 root@node03:`pwd`
 
     <property>
         <name>dfs.namenode.http-address.mycluster.nn1</name>
-        <value>node02:50070</value>
+        <value>node01:50070</value>
     </property>
     <property>
         <name>dfs.namenode.http-address.mycluster.nn2</name>
-        <value>node01:50070</value>
+        <value>node02:50070</value>
     </property>
 
     <property>
   	<name>dfs.namenode.shared.edits.dir</name>
-  	<value>qjournal://node01:8485;node02:8485;node02:8485/mycluster</value>
+  	<value>qjournal://node01:8485;node02:8485;node03:8485/mycluster</value>
     </property>
 
     <property>
@@ -140,4 +138,32 @@ scp id_dsa.pub root@node01:`pwd`/node02.pub
 ```
 hadoop-daemon.sh start journalnode
 
+```
+
+## 初始化(不要开启zookeeper)
+```
+hdfs namenode -format
+```
+## 启动namenode
+```
+hadoop-daemon.sh start namenode
+```
+
+## 第二台namenode
+```
+hdfs namenode --help #查看可用项
+hdfs namenode -bootstrapStandby
+```
+
+## zookeeper 格式化
+```
+#先到各节点
+zkServer.sh start
+#主节点
+hdfs zkfc -formatZK
+```
+
+## 启动dfs
+```
+start-dfs.sh
 ```
