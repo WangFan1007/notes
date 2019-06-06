@@ -6,3 +6,17 @@
 `mysql> set global validate_password_policy=0; `
 <br>`set global validate_password_length=1;`
 <br>`ALTER USER 'root'@'localhost' IDENTIFIED BY 'root';`
+
+
+## 按年月日分组统计查询
+
+```sql
+CREATE TABLE t_user(
+	id integer NOT NULL PRIMARY KEY,
+	username varchar(20),
+	pwd varchar(40),
+	regTime date
+);
+
+SELECT DATE_FORMAT(regTime,'%Y-%m-%d'),COUNT(*) FROM t_user GROUP BY DATE_FORMAT(regTime,'%Y-%m-%d');
+```
