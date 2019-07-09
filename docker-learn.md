@@ -19,3 +19,14 @@ docker run --name mysql01 -e MYSQL_ROOT_PASSWORD=triplog1 -d -p 3306:3306 mysql
 
 ```
 
+# ubuntu18.04
+先安装docker-ce
+<br>配置非root用户可使用
+```bash
+sudo groupadd docker     #添加docker用户组
+sudo gpasswd -a $USER docker     #将登陆用户加入到docker用户组中
+newgrp docker     #更新用户组
+docker ps    #测试docker命令是否可以使用sudo正常使用
+
+```
+

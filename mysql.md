@@ -20,3 +20,11 @@ CREATE TABLE t_user(
 
 SELECT DATE_FORMAT(regTime,'%Y-%m-%d'),COUNT(*) FROM t_user GROUP BY DATE_FORMAT(regTime,'%Y-%m-%d');
 ```
+
+
+## 配置
+```
+show variables like '%char%';
+character_set_database
+character_set_server
+```
