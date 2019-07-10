@@ -28,3 +28,14 @@ show variables like '%char%';
 character_set_database
 character_set_server
 ```
+## 允许远程访
+```
+use mysql;
+update user set host = '%' where user = 'root';
+```
+## 千万数据插入 bigData.sql
+```
+create database bigData;
+use bigData;
+
+```
